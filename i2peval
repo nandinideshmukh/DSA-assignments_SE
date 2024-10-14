@@ -1,0 +1,154 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+class Stack{
+  int n;
+  int TOP;
+  char *st;
+  public:
+  
+
+  Stack(){
+  n=100;
+  TOP = -1;
+  st = new char[n];
+  }
+  void push(int x){
+      st[++TOP] =  x;
+  }
+  
+  void pop(){
+      if(TOP==-1) std::cout << "Stack is empty!!" << std::endl;
+      
+      else
+      TOP--;
+  }
+  
+  char top(){
+    if(TOP==-1) {std::cout << "Stack is empty!!" << std::endl;
+    return '0';}
+     return st[TOP];
+  }
+  
+  bool isempty(){
+      if(TOP==-1) return true;
+      return false;
+  }
+
+  int Size(){
+    return TOP+1;
+  }
+  ~Stack(){
+      delete[] st;
+  }
+};
+
+class inf:public Stack{
+    Stack st;
+    public:
+    inf(){ }
+    int precendence(char c){
+        if(c=='^') return 3;
+        else if(c=='*' || c=='/') return 2;
+        else if(c=='+' || c=='-') return 1;
+        return -1;
+    }
+    string convert(string s){
+        string ans="";
+        for(int i=0;i<s.size();i++){
+            if(s[i]=='{' || s[i]=='(' || s[i]=='[') st.push(s[i]);
+            else if((s[i]>='a' && s[i]<='z') || s[i]>='A' && s[i]<='Z' || (s[i]>='0' && s[i]<='9')) ans += s[i];
+            
+            
+            else if(s[i]==')'){
+                while( !st.isempty() &&  st.top()!='('){
+                    ans += st.top();
+                    st.pop();
+                }
+                st.pop();
+            }
+
+            else if( s[i]=='}'){
+                while(!st.isempty() && st.top()!='{'){
+                    ans += st.top();
+                    st.pop();
+                }
+                st.pop();
+            }
+            
+            else if(s[i]==']'){
+                while(!st.isempty() && st.top()!='['){
+                    ans += st.top();
+                    st.pop();
+                }
+                st.pop();
+            }
+
+            else {while(!st.isempty() && precendence(s[i])<=precendence(st.top())){
+                char ch = st.top();
+                st.pop();
+                ans += ch;
+            }
+            st.push(s[i]);
+            }
+        }
+
+        while(!st.isempty())
+        {
+            ans += st.top();
+            st.pop();
+        }
+        return ans;
+    }
+    int evaluate(string s = ""){
+        int ans;
+        stack<int> st2;
+        for(int i=0;i<s.size();i++){
+            
+            if(st2.empty() || s[i]>='0' && s[i]<='9'){
+                st2.push((s[i])-48);
+            }
+            
+            else if(s[i]=='+' || s[i]=='-' || s[i]=='*' || s[i]=='/'){
+                int a = st2.top();
+                st.pop();
+                int b = st2.top();
+                st.pop();
+
+                switch(s[i]){
+                    case '+':
+                    ans = b+a;
+                    break;
+
+                    case '-':
+                    ans = b-a;
+                    break;
+
+                    case '*':
+                    ans = b*a;
+                    break;
+
+                    case '/':
+                    ans = b/a;
+                    break;
+                }
+                st2.push(ans);
+            }
+        }
+        return ans;
+    }
+};
+
+int main(){
+    Stack st;
+    inf i2p;
+    string s;
+    cout<<"\nEnter string which you want to  convert to postfix expression: ";
+
+    cin>>s;
+    string s1 = i2p.convert(s);
+    cout<<i2p.convert(s);
+    int ans = i2p.evaluate(s1);
+    cout<<endl<<ans;
+}
