@@ -12,9 +12,11 @@ using namespace std;
 template<typename T>
 class Deque{
     private:
+
     struct node{
         T data;
         node* next;
+        node* prev;
     node(T val){
         data = val;next = nullptr;
     }
@@ -47,7 +49,9 @@ class Deque{
         front = rear = n;
 
         else{
-            front->next = n;
+
+            n->next = front;
+            front->prev = n;
             front = n;
         }
     }
@@ -59,6 +63,7 @@ class Deque{
 
         else{
             rear->next = n;
+            n->prev = rear;
             rear = n;
         }
     }
@@ -67,6 +72,7 @@ class Deque{
         if(isEmpty()) throw runtime_error("\nEmpty deque!!!");
         node* t = front;
         front = front->next;
+        if(front != nullptr) front->prev = nullptr;
         delete t;
     }
 
@@ -88,9 +94,12 @@ int main(){
     dq.push_front(10);
     dq.push_front(30);
     dq.push_back(100);
-    dq.pop_front();
-    cout<<dq.get_back();
-    cout<<dq.get_front();
+    dq.push_back(150);
 
+    dq.pop_front();
+    cout<<"Element at back is: ";
+    cout<<dq.get_back();
+    cout<<"\nElement at front is: ";
+    cout<<dq.get_front();
 
 }
