@@ -101,15 +101,17 @@ class inf:public Stack{
         }
         return ans;
     }
-    int evaluate(string s = ""){
-        int ans;
+    int evaluate(string s= ""){
+        string ans = convert(s);
         stack<int> st2;
-        for(char c:s){
+        for(char c:ans){
             
-            if(isdigit(c)){
-                st2.push(c-48);
+            if(isalpha(c)){
+                int value ;
+                cout<<"Enter value: ";
+                cin>>value;
+                st2.push(value);
             }
-            
             else {
                int b = st2.top(); st2.pop();
                 int a = st2.top(); st2.pop();
@@ -117,7 +119,8 @@ class inf:public Stack{
                     case '+': st2.push(a + b); break;
                     case '-': st2.push(a - b); break;
                     case '*': st2.push(a * b); break;
-                    case '/': st2.push(a / b); break;}
+                    case '/': st2.push(a / b); break;
+                    }
             }
         }
         return st2.top();
@@ -132,7 +135,7 @@ int main(){
 
     cin>>s;
     string s1 = i2p.convert(s);
-    cout<<i2p.convert(s);
-    int ans = i2p.evaluate(s1);
+    cout<<s1;
+    int ans = i2p.evaluate(s);
     cout<<endl<<ans;
 }
