@@ -104,39 +104,23 @@ class inf:public Stack{
     int evaluate(string s = ""){
         int ans;
         stack<int> st2;
-        for(int i=0;i<s.size();i++){
+        for(char c:s){
             
-            if(st2.empty() || s[i]>='0' && s[i]<='9'){
-                st2.push((s[i])-48);
+            if(isdigit(c)){
+                st2.push(c-48);
             }
             
-            else if(s[i]=='+' || s[i]=='-' || s[i]=='*' || s[i]=='/'){
-                int a = st2.top();
-                st.pop();
-                int b = st2.top();
-                st.pop();
-
-                switch(s[i]){
-                    case '+':
-                    ans = b+a;
-                    break;
-
-                    case '-':
-                    ans = b-a;
-                    break;
-
-                    case '*':
-                    ans = b*a;
-                    break;
-
-                    case '/':
-                    ans = b/a;
-                    break;
-                }
-                st2.push(ans);
+            else {
+               int b = st2.top(); st2.pop();
+                int a = st2.top(); st2.pop();
+                switch (c) {
+                    case '+': st2.push(a + b); break;
+                    case '-': st2.push(a - b); break;
+                    case '*': st2.push(a * b); break;
+                    case '/': st2.push(a / b); break;}
             }
         }
-        return ans;
+        return st2.top();
     }
 };
 
