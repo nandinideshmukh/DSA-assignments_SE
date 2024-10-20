@@ -1,0 +1,197 @@
+#include <iostream>
+#include <vector>
+#include <bits/stdc++.h>
+
+
+using namespace std;
+
+class node{
+    public:
+    char data;
+    int start;
+    int end;
+    node* next;
+    int n;
+    
+    node(){
+        // 0 means available
+        // 1 means not available
+        data = '0';
+        next = nullptr;
+    }
+    
+    node(int val){
+    data = val;
+    next = nullptr;
+    }
+
+};
+
+class slotbooking:public node{
+    public:
+    void makeslots(node* &head){
+        cout<<"\nEnter the appointment size: ";
+        cin>>n;
+
+        if (head==nullptr){
+        
+        node* first = new node();
+        head = first;
+        }
+        node* t = head;
+        
+        for(int i=0;i<n;i++){
+
+            node* n = new node();
+            cout<<"\nEnter start time of booking: ";
+            cin>>n->start;
+            cout<<"\nEnter end time of booking: ";
+            cin>>n->end;
+
+            t->next = n;
+            t = n;
+        }
+
+    }
+
+    void displayslots(node* head){
+
+        if(head==nullptr){
+            return ;
+        }
+        node* t = head->next;
+        cout<<"\nThis is the status of seat booking: \n 0 means seat is available \n 1 means not available: \n";
+        while(t)
+        {
+            cout<<t->start<<" to "<<t->end<<" ->"<<t->data<<"\n";
+            t = t->next;
+        }
+    }
+
+    void book_slot(node* &head){
+        int start_time;
+        cout<<"\nEnter starting time you want to book (Krupaya 1 to 24 hrs me hi kare): ";
+        cin>>start_time;
+
+        int end_time;
+        cout<<"\nEnter ending time you want to book (Krupaya 1 to 24 hrs me hi kare): ";
+        cin>>end_time;
+
+        node* t = head;
+
+        while (t)
+        {
+            if(t->start == start_time) {
+                if(t->data=='0') t->data ='1';
+                else cout<<"\nAppointment is already booked!! ";
+            }
+            t = t->next;
+        }
+        
+    }
+
+    void cancel_slot(node* &head){
+        int start_time;
+        cout<<"\nEnter starting time you want to cancel (Krupaya 1 to 24 hrs me hi kare): ";
+        cin>>start_time;
+
+        int end_time;
+        cout<<"\nEnter ending time you want to cencel (Krupaya 1 to 24 hrs me hi kare): ";
+        cin>>end_time;
+
+        node* t = head;
+
+        while (t)
+        {
+            if(t->start == start_time) {
+                if(t->data=='1') t->data ='0';
+                else cout<<"\nAppointment is already not there!! ";
+            }
+            t = t->next;
+        }
+    }
+    void sort_linkedlist(node* &head){
+        for(int i=0;i<n;i++){
+        node* t = head;
+        while(t->next){
+            if(t->start > t->next->start){
+                swap(t->start,t->next->start);
+                swap(t->end,t->next->end);
+            }
+            t = t->next;
+        }
+        }
+    }
+
+    void swap(int &a,int &b){
+        int t = a;
+        a = b;
+        b = t;
+    }
+
+};
+
+void choice(node* &head){
+    int x;
+    cout<<"\nEnter what do you want to do: \n1. Make slots \n2. Sort slots \n 3. Book slot \n4. Cancel slot \n 5. Display slot: \n";
+    cin>>x;
+
+    slotbooking sll;
+
+
+    
+    switch (x)
+    {
+    case 1:
+        sll.makeslots(head);
+        // break;
+    case 2:
+        sll.sort_linkedlist(head);
+        break;
+    case 3:
+        sll.book_slot(head);
+        break;
+    case 4:
+        sll.cancel_slot(head);
+        break;
+    case 5:
+        sll.displayslots(head);
+        break;
+    default:
+        break;
+    }
+    char ch;
+    cout<<"\nDo you want to continue this process (y or n): ";
+    cin>>ch;
+
+    if(ch=='y')
+    choice(head);
+
+
+}
+
+int main(){     
+    node* head = nullptr;
+
+   choice(head);
+    // sll.makeslots(head);
+    // sll.displayslots(head);
+    // cout<<"\n\n\n";
+
+    // cout<<"\nSorting linked list : ";
+    // sll.sort_linkedlist(head);
+    // cout<<"\nSorted slot list is: ";
+    // sll.displayslots(head);
+
+    // cout<<"\n\nBook slot: ";
+    // sll.book_slot(head);
+    // cout<<"\n Changed slot list is: ";
+    // sll.displayslots(head);
+
+    // cout<<"\n\n\n";
+    
+    // cout<<"\n\nCancel slot: ";
+    // sll.cancel_slot(head);
+    // cout<<"\nChanged slot list is: ";
+    // sll.displayslots(head);
+}
