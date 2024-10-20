@@ -1,0 +1,90 @@
+
+m1 = int(input("Enter number of rows for mat1: "))
+n1 = int(input("Enter number of columns for mat1: "))
+
+m2 = int(input("Enter number of rows for mat2: "))
+n2 = int(input("Enter number of columns for mat1: "))
+
+if m2 != n1:
+    print("Not applicable for matrix multiplication")
+
+if m2 != m1 and n2 != n1:
+    print("Not applicable for matrix addition and subtraction")
+
+mat1 = []
+for i in range(min(m1,n1)):
+    n = []
+    for j in range(max(m1,n1)):
+        n.append(int(input(f"Enter element {i}{j} in matrix1 :")))
+
+    mat1.append(n)
+
+mat2 = []
+for i in range(max(n2,m2)):
+    z = []
+    for j in range(min(m2,n2)):
+        z.append(int(input(f"Enter element {i}{j} in matrix2:")))
+
+    mat2.append(z)
+print(mat2,mat1)
+
+result = [[0 for _ in range(n1)] for _ in range(m1)]
+print(result)
+
+def add(a,b):
+    for i in range(m1):
+        for j in range(n1):
+            result[i][j] = a[i][j] + b[i][j]
+
+    return result
+
+
+def sub(a,b):
+    for i in range(m1):
+        for j in range(n1):
+            result[i][j] = a[i][j] - b[i][j]
+
+    return result
+
+
+def trans(a):
+    for i in range(m1):
+        for j in range(n1):
+            result[j][i] = a[i][j]
+    return result
+
+
+def multiply(a, b):
+    for i in range(m1):
+        for j in range(n2):
+            for k in range(m2):
+                result[i][j] += a[i][k]*b[k][j]
+
+    return result
+
+
+class Mat:
+    def __init__(self,a):
+        a = int(input("Operation\n 1. Add\n 2. Subtract\n 3. Multiply\n 4. Transpose"))
+        self.a = 1
+
+    def operate(self):
+        if self.a == 1:
+            print(add(mat1,mat2))
+
+        elif self.a == 2:
+            print(sub(mat1,mat2))
+
+        elif self.a == 3:
+            print(multiply(mat1,mat2))
+
+        elif self.a == 4:
+            print(trans(mat1))
+
+        else:
+            print("Invalid input")
+
+
+op = int
+operation = Mat(op)
+operation.operate()
