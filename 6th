@@ -1,0 +1,51 @@
+
+percentage = []
+n = int(input("How many students you want in your list? "))
+for i in range(n):
+    x = int(input(f"Enter percentage of student {i+1}: "))
+    percentage.append(x)
+
+
+def partition(a,low ,hi):
+    i = low
+    j = hi
+    pivot = a[low]
+    while i < j:
+        while a[i] <= pivot and i<hi:
+            i += 1
+        while a[j] > pivot and j>low:
+            j -= 1
+        if i<j :
+            a[i], a[j] = a[j], a[i]
+            print("List after pass is: ",a)
+
+    a[j], a[low] = a[low], a[j]
+    print(f"List after final pass {i+1} is: ",a)
+
+    return j
+
+
+def quicksort(a,l, h):
+    if l<h:
+        pivot = partition(a,l,h)
+        print(pivot)
+        quicksort(a,l,pivot-1)
+        quicksort(a,pivot+1,h)
+
+
+class quick:
+    def __init__(self,a):
+        a = int(input("Do you want to perform quicksort?\n 1. Yes\n 2. No\n"))
+        self.a = a
+
+    def compute(self):
+        choose = self.a
+        if choose == 1:
+            quicksort(percentage, 0 , n-1)
+            print("Sorted list is: ",percentage)
+        if choose == 2:
+            print("I did not peform any operation!")
+
+
+Quick = quick(int)
+Quick.compute()
