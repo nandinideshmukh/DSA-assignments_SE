@@ -1,4 +1,3 @@
-Can't create, edit, or upload … Not enough storage. Get 100 GB of storage for ₹130.00 ₹35.00/month for 2 months.
 # Write a Python program to store roll numbers of student in array who attended
 # training program in random order. Write function for searching whether particular
 # student attended training program or not, using Linear search and Sentinel search.
