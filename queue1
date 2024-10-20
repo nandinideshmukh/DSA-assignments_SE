@@ -1,129 +1,103 @@
-/*
-
-Queues are frequently used in computer programming, and a typical example is the
-creation of a job queue by an operating system. If the operating system does not use
-priorities, then the jobs are processed in the order they enter the system. Write C++
-program for simulating job queue. Write functions to add job and delete job from
-queue.
-
-*/
-
 #include <iostream>
 using namespace std;
 
-class node{
-
-    public:
+class node {
+public:
     int data;
     node* next;
 
-    node(){
-        data = 0;
-        next = nullptr;
-    }
-    node(int val){
-        data = val;
-        next = nullptr;
-    }
+    node() : data(0), next(nullptr) {}
+    node(int val) : data(val), next(nullptr) {}
 };
 
-class Queue : public node{
+class Queue {
+    int size;       
+    int count;      
+    node* front;    
+    node* rear;     
 
-    int size;
-    node* front;
-    node* rear;
-    static int count;
+public:
+    Queue() : size(10), count(0), front(nullptr), rear(nullptr) {}
 
-    public:
-    
-    //Declare queue size in the compile time only
-    //Initialize both the pointer to null
-    Queue(){
-        size = 10;
-        front = nullptr;
-        rear = nullptr;
+    bool isEmpty() {
+        return (front == nullptr);
     }
 
-    //Checking if queue is empty or not
-    bool isEmpty(){
-        if(front==nullptr){ return true;}
-        return false;
+    bool isFull() {
+        return (count == size);
     }
-    //Pushing at 
-    void enqueue(int val){
+
+    void enqueue(int val) {
+        if (isFull()) {
+            cout << "\nQueue is full!" << endl;
+            return;
+        }
+
         node* n = new node(val);
-        if(this->isEmpty()){
-            front = rear = n;
-            return; 
-        }
-        if(front==nullptr ) front = front->next;
 
-        if(Queue::count<size+1){
-        rear->next= n;
-        rear = n;
-        count++;
-        cout<<Queue::count;
-        }
-        else cout<<"\nStack is full!";
+        if (isEmpty()) {
+            front = rear = n;  
+        } else {
+            rear->next = n;
+            rear = n;
         }
 
-    //Deleting element using first in first out principle FIFO
-    void dequeue(){
-
-        if(this->isEmpty()) {cout<<"\nQueue underflow ";return;}
-        
-        node* todel = front;
-        front = front->next;
-
-        if(front==nullptr) rear = nullptr;
-
-        delete todel;
-        count--;
+        count++;                
+        cout << "Enqueued: " << val << " | Queue size: " << count << endl;
     }
 
-    //Getting and elements at front and rear end
-    int getfront(){
-        if(front==nullptr){
-            cout<<"\nStack is empty!";
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "\nQueue underflow (empty queue)" << endl;
+            return;
+        }
+
+        node* todel = front;
+        front = front->next;    
+
+        if (front == nullptr) { 
+            rear = nullptr;
+        }
+
+        delete todel;          
+        count--;                
+        cout << "Dequeued | Queue size: " << count << endl;
+    }
+
+    int getFront() {
+        if (isEmpty()) {
+            cout << "\nQueue is empty!";
             return -1;
         }
         return front->data;
     }
 
-    int getrear(){
-        if(rear==nullptr){
-            cout<<"\nStack is empty!";
+    int getRear() {
+        if (isEmpty()) {
+            cout << "\nQueue is empty!";
             return -1;
         }
         return rear->data;
     }
-    bool isFull(){
-        if (count<10) return false;
-        return true;
-    }
-
 };
 
-int Queue::count = 1;
-
-int main(){
-
+int main() {
     Queue q;
-    for(int i=0;i<11;i++)
-    q.enqueue(10);
 
-    cout<<endl;
-    // q.dequeue();
-    // cout<<q.getfront();
-    // cout<<endl;
-    // q.enqueue(10);
-    // q.enqueue(20);
-    // for(int i=0;i<10;i++)
-    // q.dequeue();
-    // cout<<q.getfront()<<endl;
-    cout<<q.isFull()<<endl;
+    for (int i = 0; i < 10; i++) {
+        q.enqueue(i + 1);
+    }
 
+    q.enqueue(11);
 
+    cout << "Front element: " << q.getFront() << endl;
+    cout << "Rear element: " << q.getRear() << endl;
+
+    while (!q.isEmpty()) {
+        q.dequeue();
+    }
+
+    q.dequeue();
 
     return 0;
 }
