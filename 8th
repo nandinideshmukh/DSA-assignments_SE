@@ -117,6 +117,7 @@ class slotbooking:public node{
             if(t->start > t->next->start){
                 swap(t->start,t->next->start);
                 swap(t->end,t->next->end);
+                swap(t->data, t->next->data);  
             }
             t = t->next;
         }
