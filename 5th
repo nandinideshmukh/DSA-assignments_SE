@@ -1,0 +1,95 @@
+# Write a Python program to store second year percentage of students in
+# array. Write function for sorting array of floating-point numbers in
+# ascending order using a) Insertion sort and b) Shell Sort and display top
+# five scores.
+
+percentage = []
+
+n = int(input("Enter number of students you want in your array: "))
+
+for i in range(n):
+    per = float(input(f"Enter percentage of student {i + 1}: "))
+    percentage.append(per)
+
+
+# This algorithm is bubble sort
+def bubble(a, m):
+    j = 1
+    while j < m:
+        count = 0
+        for i in range(m - 1):
+            if a[i] > a[i + 1]:
+                count = 1
+                t = a[i]
+                a[i] = a[i + 1]
+                a[i + 1] = t
+        if count == 1:
+            print(f"Array after {j} pass is: {a}")
+        else:
+            break
+        j += 1
+    print(f"Sorted list is: {a}")
+
+
+# bubble(percentage, n)
+
+
+# This algorithm is shell sort
+def shell(a, m):
+    index = m // 2
+    j = 0
+
+    while j <= index:
+        count = 0
+        for i in range(m - index):
+            if a[i] > a[i + index]:
+                count = 1
+                t = a[i]
+                a[i] = a[i + index]
+                a[i + index] = t
+
+        index = index // 2
+        if count == 1:
+            print(f"Array after {j + 1} pass is: {a}")
+        else:
+            break
+        j += 1
+
+    print(f"Sorted list is: {a}")
+
+
+# shell(percentage, n)
+
+
+# This algorithm is for insertion sort
+def insertion(a, m):
+    for i in range(m):
+        j = i
+
+        while j > 0 and a[j - 1] > a[j]:
+            a[j - 1], a[j] = a[j], a[j - 1]
+            j -= 1
+
+    print(f"Sorted list is: {a}")
+
+
+class sort:
+    def __init__(self, b):
+        print("\n1. Bubble sort \n2.Insertion sort \n3.Shell sort")
+        b = int(input("Enter which sorting algorithm: \n"))
+        self.b = b
+
+    def choose(self):
+        if (self.b == 1):
+            bubble(percentage, n)
+        elif (self.b == 2):
+            insertion(percentage, n)
+        elif (self.b == 3):
+            shell(percentage, n)
+        else:
+            print("Inavlid value entered")
+
+
+a = int
+Sort = sort(a)
+Sort.choose()
